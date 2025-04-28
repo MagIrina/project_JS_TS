@@ -1,0 +1,72 @@
+<div class="layout-wrapper">
+    <div class="wrapper">
+        <aside class="main-sidebar sidebar-primary">
+            <!-- Brand Logo -->
+            <a href="javascript:void(0);" class="brand-link">
+                <img src="/images/logo.png" alt="Finance Logo" class="" style="">
+            </a>
+
+            <div class="sidebar">
+                <nav class="mt-5">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                        data-accordion="false">
+
+                        <li class="nav-item">
+                            <a href="/" class="nav-link" id="main-active">
+                                <i class="nav-icon fas fa-home"></i>
+                                <p>Главная</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="/income&expenses" class="nav-link" id="income-expenses-active">
+                                <i class="nav-icon fas fa-dollar-sign"></i>
+                                <p>Доходы & Расходы</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link" id="categories-active">
+                                <p class="pl-2">
+                                    Категории
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/income" class="nav-link" id="income-active">
+                                        <p>Доходы</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/expenses" class="nav-link" id="expenses-active">
+                                        <p>Расходы</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+
+
+            <div class="balance mb-1">
+                Баланс: <a href="javascript:void(0);" id="balance"> 500$ </a>
+            </div>
+
+            <div class="dropdown ml-4 mt-3 pb-3 mb-4 d-flex">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <img src="/images/user-Icon.png" width="32" height="32" class="rounded-circle me-2" />
+                    <strong class="ml-2">Roman Chernov</strong>
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/logout" role="button">LogOut</a>
+                </div>
+            </div>
+
+        </aside>
+        <div class="content-wrapper" id="content-layout">
+        </div>
+    </div>
+</div>

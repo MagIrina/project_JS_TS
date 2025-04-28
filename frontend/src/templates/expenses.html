@@ -1,0 +1,86 @@
+<div class="content-expenses position-relative">
+    <section class="content-header">
+        <div class="container-fluid pt-4">
+            <h1 class="mt-5">Расходы</h1>
+        </div>
+    </section>
+
+    <div class="expenses-categories row">
+
+        <div class="category">
+            <h3>Еда</h3>
+            <button type="button" class="btn btn-primary btn-edit-expenses">Редактировать</button>
+            <button type="button" class="btn btn-danger btn-delete-expenses">Удалить</button>
+        </div>
+
+        <div class="category">
+            <h3>Жильё</h3>
+            <button type="button" class="btn btn-primary btn-edit-expenses">Редактировать</button>
+            <button type="button" class="btn btn-danger btn-delete-expenses">Удалить</button>
+        </div>
+
+        <div class="category">
+            <h3>Здоровье</h3>
+            <button type="button" class="btn btn-primary btn-edit-expenses">Редактировать</button>
+            <button type="button" class="btn btn-danger btn-delete-expenses">Удалить</button>
+        </div>
+
+        <div class="category">
+            <h3>Кафе</h3>
+            <button type="button" class="btn btn-primary btn-edit-expenses">Редактировать</button>
+            <button type="button" class="btn btn-danger btn-delete-expenses">Удалить</button>
+        </div>
+
+        <div class="category">
+            <h3>Авто</h3>
+            <button type="button" class="btn btn-primary btn-edit-expenses">Редактировать</button>
+            <button type="button" class="btn btn-danger btn-delete-expenses">Удалить</button>
+        </div>
+
+        <div class="category">
+            <h3>Одежда</h3>
+            <button type="button" class="btn btn-primary btn-edit-expenses">Редактировать</button>
+            <button type="button" class="btn btn-danger btn-delete-expenses">Удалить</button>
+        </div>
+
+        <div class="category">
+            <h3>Развлечения</h3>
+            <button type="button" class="btn btn-primary btn-edit-expenses">Редактировать</button>
+            <button type="button" class="btn btn-danger btn-delete-expenses">Удалить</button>
+        </div>
+
+        <div class="category">
+            <h3>Счета</h3>
+            <button type="button" class="btn btn-primary btn-edit-expenses">Редактировать</button>
+            <button type="button" class="btn btn-danger btn-delete-expenses">Удалить</button>
+        </div>
+
+        <div class="category">
+            <h3>Спорт</h3>
+            <button type="button" class="btn btn-primary btn-edit-expenses">Редактировать</button>
+            <button type="button" class="btn btn-danger btn-delete-expenses">Удалить</button>
+        </div>
+
+        <a href="/generating-expenses" class="category btn btn-block btn-outline-light">
+            <button class=" btn-creat">+</button>
+        </a>
+    </div>
+
+    <div class="modal fade show" id="modal-default" aria-modal="true"
+         role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>Вы действительно хотите удалить категорию?</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Да, удалить</button>
+                    <button type="button" class="btn btn-danger close-modal-expenses">Не удалять</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+</div>

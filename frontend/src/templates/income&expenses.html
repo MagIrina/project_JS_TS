@@ -1,0 +1,93 @@
+<div class="content-income-expenses">
+    <section class="content">
+        <section class="content-header">
+            <div class="container-fluid pt-4">
+                <h1 class="mt-5">Доходы и расходы</h1>
+            </div>
+        </section>
+
+        <button type="button" class="btn btn-success mr-2 ml-3 mt-3 btn-create-income-expenses">Создать доход</button>
+        <button type="button" class="btn btn-danger mt-3 btn-create-income-expenses">Создать расход</button>
+
+        <div class="filters-income-expenses mt-5 ml-3">
+            <button type="button" class="btn btn-secondary">Сегодня</button>
+            <button type="button" class="btn btn-outline-secondary">Неделя</button>
+            <button type="button" class="btn btn-outline-secondary">Месяц</button>
+            <button type="button" class="btn btn-outline-secondary">Год</button>
+            <button type="button" class="btn btn-outline-secondary">Все</button>
+            <button type="button" class="btn btn-outline-secondary">Интервал</button>
+            <p>c</p>
+            <a>Дата</a>
+            <p>по</p>
+            <a>Дата</a>
+        </div>
+
+        <div class="card-body">
+            <table id="data-table" class="table table-bordered table-striped table-income-expenses">
+                <thead>
+                <tr class="table-title">
+                    <th style="width: 130px;">№ операции</th>
+                    <th>Тип</th>
+                    <th>Категория</th>
+                    <th>Сумма</th>
+                    <th>Дата</th>
+                    <th>Коментарий</th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th style="width: 140px;">1</th>
+                    <th style="color: green;">доход</th>
+                    <th>зарплата</th>
+                    <th>500$</th>
+                    <th>11.09.2022</th>
+                    <th></th>
+                    <th>
+                        <a href="#"><i class="fas fa-trash-alt mr-2 btn-delete-operation" style="color: #000000;"></i></a>
+                        <a href="#"><i class="fas fa-pencil-alt btn-editing-income-expenses" style="color: #000000;"></i></a>
+                    </th>
+                </tr>
+                <tr>
+                    <th style="width: 140px;">1</th>
+                    <th style="color: red;">расход</th>
+                    <th>жильё</th>
+                    <th>2 500$</th>
+                    <th>12.09.2022</th>
+                    <th></th>
+                    <th>
+                        <a href="#"><i class="fas fa-trash-alt mr-2 btn-delete-operation" style="color: #000000;"></i></a>
+                        <a href="#"><i class="fas fa-pencil-alt btn-editing-income-expenses" style="color: #000000;"></i></a>
+                    </th>
+                </tr>
+                </thead>
+                <tbody id="records">
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <div class="modal fade show" id="modal-default" aria-modal="true"
+         role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>Вы действительно хотите удалить категорию?</p>
+                </div>
+                <div class="modal-footer justify-content-center mt-2 mb-2">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Да, удалить</button>
+                    <button type="button" class="btn btn-danger close-modal-income-expenses">Не удалять</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <aside class="control-sidebar control-sidebar-dark">
+
+    </aside>
+</div>
+
+
+
+
+

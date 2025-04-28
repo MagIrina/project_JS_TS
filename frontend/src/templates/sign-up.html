@@ -1,0 +1,65 @@
+<div class="content-sign-up content-login">
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="javascript:void(0);" class="brand-link">
+                <img src="/images/logo.png" alt="Finance Logo" class="" style="">
+            </a>
+        </div>
+        <!-- /.login-logo -->
+        <div class="card-body ">
+            <p class="login-box-msg">Создайте аккаунт</p>
+            <div id="common-error" class="error invalid-feedback text-center mb-3">Не удалось зарегистрировать
+                пользователя. Обратитесь в поддержку.
+            </div>
+
+            <form class="login-form">
+                <div class="input-group mb-2">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user" style="color: #6c757d;"></span>
+                        </div>
+                    </div>
+                    <input type="text" class="form-control" placeholder="ФИО" id="initials">
+                    <span id="initials-error" class="error invalid-feedback">Заполните ФИО</span>
+                </div>
+                <div class="input-group mb-2">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <i class="fas fa-envelope-open" style="color: #6c757d;"></i>
+                        </div>
+                    </div>
+                    <input type="email" class="form-control" placeholder="Электронная почта" id="email">
+                    <span id="email-error" class="error invalid-feedback">Введите корректный E-mail</span>
+                </div>
+                <div class="input-group mb-2">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <i class="fas fa-lock" style="color: #6c757d;"></i>
+                        </div>
+                    </div>
+                    <input type="password" class="form-control" placeholder="Пароль" id="password">
+                    <span id="password-error" class="error invalid-feedback">Должен быть более 8 символов,
+                        содержать как минимум - 1 заглавную букву и 1 цифру</span>
+                </div>
+                <div class="input-group mb-4">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <i class="fas fa-lock" style="color: #6c757d;"></i>
+                        </div>
+                    </div>
+                    <input type="password" class="form-control" placeholder="Подтверждения пароля" id="password-repeat">
+                    <span id="password-repeat-error" class="error invalid-feedback">Пароль и повторение пароля должны совподать</span>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-primary btn-block" id="process-button">Войти</button>
+                    </div>
+                </div>
+                <div class="pt-1 text-left no-account">
+                    <p>Уже есть аккаунт? <a class="pl-2" href="/login">Войдите в систему</a></p>
+                </div>
+            </form>
+        </div>
+        <!-- /.login-card-body -->
+    </div>
+</div>

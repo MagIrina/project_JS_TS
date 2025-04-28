@@ -1,0 +1,5 @@
+export class EditingIncomeExpenses {
+    constructor() {
+
+    }
+}
