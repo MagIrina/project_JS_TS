@@ -1,18 +1,18 @@
-
-import config from "../config/config.js";
+import {HttpUtils} from "./http-utils";
 
 export class AuthUtils {
     static accessTokenKey = 'accessToken';
     static refreshTokenKey = 'refreshToken';
     static userInfoTokenKey = 'userInfo';
 
-    static setAuthInfo(accessToken, refreshToken, userInfo = null) {
+    static setAuthInfo(accessToken, refreshToken, userInfo = undefined) {
         if (!accessToken || !refreshToken) {
             throw new Error("Не удалось сохранить токены: один из них отсутствует");
         }
+
         localStorage.setItem(this.accessTokenKey, accessToken);
         localStorage.setItem(this.refreshTokenKey, refreshToken);
-        if (userInfo) {
+        if (userInfo !== undefined) {
             localStorage.setItem(this.userInfoTokenKey, JSON.stringify(userInfo));
         }
     }
@@ -36,35 +36,49 @@ export class AuthUtils {
     }
 
     static async updateRefreshToken() {
-        let result = false;
-        const refreshToken = this.getAuthInfo(this.refreshTokenKey);
-        if (refreshToken) {
-            try {
-                const response = await fetch(config.api + '/refresh', {
-                    method: "POST",
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({ refreshToken })
-                });
+        if (this.isRefreshing) {
+            console.warn("Уже идет обновление токена — ждём завершения...");
+            return this.refreshPromise;
+        }
 
-                if (response && response.status === 200) {
-                    const tokens = await response.json();
-                    if (tokens.tokens?.accessToken && tokens.tokens?.refreshToken) {
-                        this.setAuthInfo(tokens.tokens.accessToken, tokens.tokens.refreshToken);
+        this.isRefreshing = true;
+        this.refreshPromise = new Promise(async (resolve) => {
+            let result = false;
+            const refreshToken = this.getAuthInfo(this.refreshTokenKey);
+            if (refreshToken) {
+                try {
+                    const res = await HttpUtils.request('/refresh', 'POST', false, {refreshToken});
+
+                    console.log("Ответ от /refresh:", res);
+
+                    if (!res.error && res.response?.tokens?.accessToken && res.response?.tokens?.refreshToken) {
+                        const tokens = res.response.tokens;
+
+                        const existingUserInfo = this.getAuthInfo(this.userInfoTokenKey);
+                        this.setAuthInfo(
+                            tokens.accessToken,
+                            tokens.refreshToken,
+                            existingUserInfo ? JSON.parse(existingUserInfo) : undefined
+                        );
+
                         result = true;
+                    } else {
+                        console.warn("Не удалось обновить токен, res:", res);
                     }
+                } catch (e) {
+                    console.error("Ошибка запроса обновления токена:", e);
                 }
-            } catch (e) {
-                console.error("Ошибка обновления токена:", e);
             }
-        }
 
-        if (!result) {
-            this.removeAuthInfo();
-        }
+            if (!result) {
+                console.warn("Удаление токенов из localStorage");
+                this.removeAuthInfo();
+            }
 
-        return result;
+            this.isRefreshing = false;
+            resolve(result);
+        });
+
+        return this.refreshPromise;
     }
 }

@@ -12,6 +12,8 @@ import {EditingExpenses} from "./components/editing-expenses.js";
 import {IncomeExpenses} from "./components/income&expenses.js";
 import {CreateIncomeExpenses} from "./components/create-income&expenses.js";
 import {EditingIncomeExpenses} from "./components/editing-income&expenses.js";
+import {LayoutSidebar} from "./components/layout.js";
+import {SidebarUI} from "./utils/sidebar-ui.js";
 
 export class Router {
 
@@ -19,7 +21,7 @@ export class Router {
 
         this.titlePageElement = document.getElementById('title');
         this.contentPageElement = document.getElementById('content');
-        this.adminLteStyleElement = document.getElementById('adminlte_style');
+        this.bootstrapStyleElement = document.getElementById('bootstrap_style');
 
         this.inetEvens();
 
@@ -30,15 +32,17 @@ export class Router {
                 filePathTemplate: '/templates/main.html',
                 useLayout: '/templates/layout.html',
                 load: () => {
-                    document.getElementById('main-active').classList.add('active');
-                    new Main();
+                    document.body.classList.remove('d-flex');
+                    SidebarUI.activateMain();
+                    new Main(this.openNewRoute.bind(this));
+                    new LayoutSidebar(this.openNewRoute.bind(this));
                 },
-                styles: [
-                    'Chart.min.css'
-                ],
-                scripts: [
-                    'Chart.min.js',
-                ]
+                unLoad: () => {
+                    document.body.classList.add('d-flex');
+                },
+                styles: ['Chart.min.css'],
+                scripts: ['Chart.min.js',
+                    'Chart.bundle.min.js']
             },
             {
                 route: '/income',
@@ -46,10 +50,10 @@ export class Router {
                 filePathTemplate: '/templates/income.html',
                 useLayout: '/templates/layout.html',
                 load: () => {
-                    document.getElementById('categories-active').classList.add('active', 'menu-open');
-                    document.querySelector('.has-treeview').classList.add('menu-open');
-                    document.getElementById('income-active').classList.add('active');
+                    SidebarUI.resetCategories();
+                    SidebarUI.activateIncome();
                     new Income(this.openNewRoute.bind(this));
+                    new LayoutSidebar(this.openNewRoute.bind(this));
                 },
             },
             {
@@ -58,10 +62,10 @@ export class Router {
                 filePathTemplate: '/templates/generating-income.html',
                 useLayout: '/templates/layout.html',
                 load: () => {
-                    document.getElementById('categories-active').classList.add('active', 'menu-open');
-                    document.querySelector('.has-treeview').classList.add('menu-open');
-                    document.getElementById('income-active').classList.add('active');
-                    new GeneratingIncome();
+                    SidebarUI.resetCategories();
+                    SidebarUI.activateIncome();
+                    new GeneratingIncome(this.openNewRoute.bind(this));
+                    new LayoutSidebar(this.openNewRoute.bind(this));
                 },
             },
             {
@@ -70,22 +74,22 @@ export class Router {
                 filePathTemplate: '/templates/editing-income.html',
                 useLayout: '/templates/layout.html',
                 load: () => {
-                    document.getElementById('categories-active').classList.add('active', 'menu-open');
-                    document.querySelector('.has-treeview').classList.add('menu-open');
-                    document.getElementById('income-active').classList.add('active');
-                    new EditingIncome();
+                    SidebarUI.resetCategories();
+                    SidebarUI.activateIncome();
+                    new EditingIncome(this.openNewRoute.bind(this));
+                    new LayoutSidebar(this.openNewRoute.bind(this));
                 },
             },
             {
                 route: '/expenses',
-                title: 'Рфсходы',
+                title: 'Расходы',
                 filePathTemplate: '/templates/expenses.html',
                 useLayout: '/templates/layout.html',
                 load: () => {
-                    document.getElementById('categories-active').classList.add('active', 'menu-open');
-                    document.querySelector('.has-treeview').classList.add('menu-open');
-                    document.getElementById('expenses-active').classList.add('active');
+                    SidebarUI.resetCategories();
+                    SidebarUI.activateExpenses();
                     new Expenses(this.openNewRoute.bind(this));
+                    new LayoutSidebar(this.openNewRoute.bind(this));
                 },
             },
             {
@@ -94,10 +98,10 @@ export class Router {
                 filePathTemplate: '/templates/generating-expenses.html',
                 useLayout: '/templates/layout.html',
                 load: () => {
-                    document.getElementById('categories-active').classList.add('active', 'menu-open');
-                    document.querySelector('.has-treeview').classList.add('menu-open');
-                    document.getElementById('expenses-active').classList.add('active');
-                    new GeneratingExpenses();
+                    SidebarUI.resetCategories();
+                    SidebarUI.activateExpenses();
+                    new GeneratingExpenses(this.openNewRoute.bind(this));
+                    new LayoutSidebar(this.openNewRoute.bind(this));
                 },
             },
             {
@@ -106,10 +110,10 @@ export class Router {
                 filePathTemplate: '/templates/editing-expenses.html',
                 useLayout: '/templates/layout.html',
                 load: () => {
-                    document.getElementById('categories-active').classList.add('active', 'menu-open');
-                    document.querySelector('.has-treeview').classList.add('menu-open');
-                    document.getElementById('expenses-active').classList.add('active');
-                    new EditingExpenses();
+                    SidebarUI.resetCategories();
+                    SidebarUI.activateExpenses();
+                    new EditingExpenses(this.openNewRoute.bind(this));
+                    new LayoutSidebar(this.openNewRoute.bind(this));
                 },
             },
             {
@@ -118,8 +122,10 @@ export class Router {
                 filePathTemplate: '/templates/income&expenses.html',
                 useLayout: '/templates/layout.html',
                 load: () => {
-                    document.getElementById('income-expenses-active').classList.add('active');
+                    SidebarUI.resetCategories();
+                    SidebarUI.activateIncomeExpenses();
                     new IncomeExpenses(this.openNewRoute.bind(this));
+                    new LayoutSidebar(this.openNewRoute.bind(this));
                 },
             },
             {
@@ -128,10 +134,10 @@ export class Router {
                 filePathTemplate: '/templates/create-income&expenses.html',
                 useLayout: '/templates/layout.html',
                 load: () => {
-                    document.getElementById('categories-active').classList.add('active', 'menu-open');
-                    document.querySelector('.has-treeview').classList.add('menu-open');
-                    document.getElementById('income-active').classList.add('active');
-                    new CreateIncomeExpenses();
+                    SidebarUI.resetCategories();
+                    SidebarUI.activateIncomeExpenses();
+                    new CreateIncomeExpenses(this.openNewRoute.bind(this));
+                    new LayoutSidebar(this.openNewRoute.bind(this));
                 },
             },
             {
@@ -140,10 +146,10 @@ export class Router {
                 filePathTemplate: '/templates/editing-income&expenses.html',
                 useLayout: '/templates/layout.html',
                 load: () => {
-                    document.getElementById('categories-active').classList.add('active', 'menu-open');
-                    document.querySelector('.has-treeview').classList.add('menu-open');
-                    document.getElementById('income-active').classList.add('active');
-                    new EditingIncomeExpenses();
+                    SidebarUI.resetCategories();
+                    SidebarUI.activateIncomeExpenses();
+                    new EditingIncomeExpenses(this.openNewRoute.bind(this));
+                    new LayoutSidebar(this.openNewRoute.bind(this));
                 },
             },
             {
@@ -151,6 +157,12 @@ export class Router {
                 title: 'Страница не найдена',
                 filePathTemplate: '/templates/404.html',
                 useLayout: false,
+                load: () => {
+                    document.body.classList.add('d-flex', 'justify-content-center', 'align-items-center', 'bg-white');
+                },
+                unLoad: () => {
+                    document.body.classList.remove('d-flex', 'justify-content-center', 'align-items-center', 'bg-white');
+                },
             },
             {
                 route: '/login',
@@ -158,11 +170,11 @@ export class Router {
                 filePathTemplate: '/templates/login.html',
                 useLayout: false,
                 load: () => {
-                    document.body.classList.add('login-page', 'bg-white');
+                    document.body.classList.add('d-flex', 'justify-content-center', 'align-items-center', 'bg-white');
                     new Login(this.openNewRoute.bind(this));
                 },
                 unLoad: () => {
-                    document.body.classList.remove('login-page', 'bg-white');
+                    document.body.classList.remove('d-flex', 'justify-content-center', 'align-items-center', 'bg-white');
                 },
                 styles: [
                     'icheck-bootstrap.min.css'
@@ -174,11 +186,11 @@ export class Router {
                 filePathTemplate: '/templates/sign-up.html',
                 useLayout: false,
                 load: () => {
-                    document.body.classList.add('login-page', 'bg-white');
+                    document.body.classList.add('d-flex', 'justify-content-center', 'align-items-center', 'bg-white');
                     new SignUp(this.openNewRoute.bind(this));
                 },
                 unLoad: () => {
-                    document.body.classList.remove('login-page', 'bg-white');
+                    document.body.classList.remove('d-flex', 'justify-content-center', 'align-items-center', 'bg-white');
                 },
                 styles: [
                     'icheck-bootstrap.min.css'
@@ -209,8 +221,8 @@ export class Router {
         let element = null;
         if (e.target.nodeName === 'A') {
             element = e.target;
-        } else if (e.target.parentNode.nodeName === 'A') {
-            element = e.target.parentNode;
+        } else if (e.target.closest('a')) {
+            element = e.target.closest('a');
         }
 
         if (element) {
@@ -220,26 +232,35 @@ export class Router {
             const url = element.href.replace(window.location.origin, '');
 
             if (!url || (currentRoute === url.replace('#', '')) || url.startsWith('javascript:void(0)')) {
-                 return;
+                return;
             }
             await this.openNewRoute(url);
         }
     }
 
+    async fadeInContent(block, html) {
+        block.classList.add('fade');
+        block.style.opacity = 0;
+        await new Promise(resolve => setTimeout(resolve, 100));
+        block.innerHTML = html;
+        block.style.opacity = 1;
+        block.classList.remove('fade');
+    }
+
     async activateRoute(e, oldRoute = null) {
         if (oldRoute) {
             const currentRoute = this.routes.find(item => item.route === oldRoute);
-            if (currentRoute.styles && currentRoute.styles.length > 0) {
+            if (currentRoute?.styles) {
                 currentRoute.styles.forEach(style => {
-                    document.querySelector(`link[href = '/css/${style}']`).remove();
+                    document.querySelector(`link[href = '/css/${style}']`)?.remove();
                 });
             }
-            if (currentRoute.scripts && currentRoute.scripts.length > 0) {
+            if (currentRoute?.scripts) {
                 currentRoute.scripts.forEach(script => {
-                    document.querySelector(`script[src = '/js/${script}']`).remove();
+                    document.querySelector(`script[src = '/js/${script}']`)?.remove();
                 });
             }
-            if (currentRoute.unload && typeof currentRoute.unload === 'function') {
+            if (typeof currentRoute?.unload === 'function') {
                 currentRoute.unload();
             }
         }
@@ -248,13 +269,13 @@ export class Router {
         const newRoute = this.routes.find(item => item.route === urlRoute);
 
         if (newRoute) {
-            if (newRoute.styles && newRoute.styles.length > 0) {
+            if (newRoute.styles) {
                 newRoute.styles.forEach(style => {
-                    FileUtils.loadPageStyle('/css/' + style, this.adminLteStyleElement);
+                    FileUtils.loadPageStyle('/css/' + style, this.bootstrapStyleElement);
                 });
             }
 
-            if (newRoute.scripts && newRoute.scripts.length > 0) {
+            if (newRoute.scripts) {
                 for (const script of newRoute.scripts) {
                     await FileUtils.loadPageScript('/js/' + script);
                 }
@@ -263,28 +284,30 @@ export class Router {
             if (newRoute.title) {
                 this.titlePageElement.innerText = newRoute.title + ' | Finance';
             }
-
             if (newRoute.filePathTemplate) {
                 document.body.className = '';
                 let contentBlock = this.contentPageElement;
+
                 if (newRoute.useLayout) {
-                    this.contentPageElement.innerHTML = await fetch(newRoute.useLayout).then(response => response.text());
+                    const layoutHTML = await fetch(newRoute.useLayout).then(res => res.text());
+                    this.contentPageElement.innerHTML = layoutHTML;
                     contentBlock = document.getElementById('content-layout');
-                    document.body.classList.add('sidebar-mini');
-                    document.body.classList.add('layout-fixed');
-                } else {
-                    document.body.classList.remove('sidebar-mini');
-                    document.body.classList.remove('layout-fixed');
+                    document.body.classList.add('custom-layout');
                 }
-                contentBlock.innerHTML = await fetch(newRoute.filePathTemplate).then(response => response.text());
+
+                const contentHTML = await fetch(newRoute.filePathTemplate).then(res => res.text());
+                await this.fadeInContent(contentBlock, contentHTML);
             }
 
-            if (newRoute.load && typeof newRoute.load === 'function') {
+            if (typeof newRoute.load === 'function') {
                 newRoute.load();
             }
 
+            if (!['/login', '/sign-up'].includes(urlRoute)) {
+                new LayoutSidebar(this.openNewRoute.bind(this));
+            }
         } else {
-            console.log('No route found');
+            console.warn('No route found, redirecting to /404');
             history.pushState({}, '', '/404');
             await this.activateRoute();
         }

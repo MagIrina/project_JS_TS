@@ -51,8 +51,8 @@ export class Login {
                 !result.response.tokens.accessToken ||
                 !result.response.tokens.refreshToken ||
                 !result.response.user ||
-                !result.response.user.id ||
-                !result.response.user.name
+                typeof result.response.user.id === 'undefined' ||
+                typeof result.response.user.name === 'undefined'
             ) {
                 this.commonErrorElement.style.display = 'block';
                 return;
@@ -61,7 +61,11 @@ export class Login {
             AuthUtils.setAuthInfo(
                 result.response.tokens.accessToken,
                 result.response.tokens.refreshToken,
-                { user: result.response.user }
+                {
+                    id: result.response.user.id,
+                    name: result.response.user.name,
+                    lastName: result.response.user.lastName
+                }
             );
             this.openNewRoute('/');
         }

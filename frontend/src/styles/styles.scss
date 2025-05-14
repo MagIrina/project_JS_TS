@@ -1,3 +1,43 @@
+@mixin card-categories {
+  width: 352px;
+  height: 121px;
+  border: 1px solid #CED4DA;
+  border-radius: 12px;
+  margin: 10px;
+  box-sizing: border-box;
+}
+@mixin content-header-title {
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 100%;
+  color: #052C65;
+}
+@mixin btn-common {
+  height: 38px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 100%;
+  text-align: center;
+  color: white;
+  padding: 12px 16px;
+}
+@mixin filter-btn {
+  height: 37px;
+  width: 100px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 9px 12px;
+  border: 1px solid #6C757D;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 100%;
+  text-align: center;
+  color: #6C757D;
+}
+@mixin filter-btn-active {
+  background-color: #6C757D;
+  color: white;
+}
 
 .cat404 {
   img {
@@ -5,119 +45,24 @@
   }
 }
 
-.layout-wrapper {
-  .main-sidebar {
-    border-right: 2px solid #D9D9D9;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    max-width: 219px;
-
-    .sidebar {
-      margin-left: 10px;
-
-      .nav {
-
-        .nav-item {
-
-          #main-active, #income-expenses-active {
-            border-radius: 5px;
-          }
-
-          a {
-            border-radius: 0;
-          }
-
-          & a.active p {
-            color: white;
-          }
-
-          &.menu-open {
-            border: 2px solid #0D6EFD;
-            border-radius: 5px;
-            width: 181px;
-
-            p {
-              color: white;
-            }
-          }
-
-          .nav-link {
-            max-width: 180px;
-            max-height: 40px;
-            padding: 7px 5px;
-            margin-bottom: 0;
-
-            & .active {
-              background-color: #007bff;
-              color: white !important;
-            }
-
-            p {
-              color: #052C65;
-              white-space: nowrap;
-            }
-
-            img {
-              padding-right: 5px;
-            }
-          }
-        }
-      }
-    }
-
-    .brand-link {
-      border-bottom: 2px solid #D9D9D9;
-
-      img {
-        margin: 27px 42px 7px;
-        width: 98px;
-      }
-    }
-
-    .balance {
-      color: #052C65;
-      padding-left: 28px;
-      padding-bottom: 20px;
-      border-bottom: 2px solid #D9D9D9;
-
-      a {
-        margin-left: 5px;
-      }
-    }
-
-    .user-panel {
-      color: #052C65;
-
-      .image {
-        margin-left: 15px;
-        padding-right: 10px;
-      }
-    }
-  }
-
-  .content-wrapper {
-    background-color: white;
-
-    .content-header {
-      .container-fluid {
-        h1 {
-          font-size: 40px;
-          font-weight: 510;
-        }
-      }
-    }
-  }
+body {
+  font-family: Roboto, sans-serif;
+  display: flex;
+  height: 100vh;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
-.content-login {
+.content-login, .content-sign-up {
+  width: 397px;
+
   .login-box {
-    min-width: 435px;
+    max-width: 397px;
 
     .card-body {
       .login-box-msg {
         font-family: Roboto, sans-serif;
-        font-weight: 600;
+        font-weight: 500;
         font-size: 40px;
         line-height: 100%;
         text-align: center;
@@ -125,23 +70,41 @@
       }
 
       .login-form {
-        .checkbox-row {
-          font-size: 14px;
+        .input-group {
+          font-weight: 400;
+          font-size: 15px;
+          line-height: 24px;
+          color: #6C757D;
+          max-width: 397px;
 
-          [class*=icheck-] > input:first-child + input[type=hidden] + label::before, [class*=icheck-] > input:first-child + label::before {
-            width: 14px;
-            height: 14px;
-            margin-top: 4px;
-            margin-left: -26px
+          .form-control {
+            font-weight: 400;
+            font-size: 15px;
+            line-height: 24px;
+            color: #6C757D;
+          }
+        }
+
+        .form-check {
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 23px;
+
+          .form-check-input {
+            font-size: 14px;
           }
         }
 
         .no-account {
-          font-size: 14px;
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 100%;
+          color: #000000;
 
           p {
             a {
               text-decoration: underline;
+              cursor: pointer;
             }
           }
         }
@@ -150,13 +113,72 @@
   }
 }
 
-.content-sign-up {
-  .card-body {
-    form {
-      .input-group {
-        .input-group-append {
-          .input-group-text {
-            width: 40px;
+.content-layout {
+  height: 100vh;
+  .bar {
+    border-right: 1px solid #D9D9D9;
+
+    .login-logo {
+      border-bottom: 1px solid #D9D9D9;
+    }
+
+    .nav {
+      .nav-item {
+        width: 178px;
+
+        .nav-link {
+          color: #052C65;
+
+          .rotate-icon {
+            transition: transform 0.3s ease;
+          }
+
+          .rotate-icon.rotate-down {
+            transform: rotate(90deg);
+          }
+
+          .nav-link-text {
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 13px;
+          }
+
+          .text-no-active {
+            color: #0D6EFD;
+          }
+        }
+      }
+    }
+
+    .balance,
+    #user-full-name {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 100%;
+      color: #052C65;
+      white-space: normal;
+    }
+
+    .user-full-name {
+      font-weight: 400;
+    }
+  }
+}
+
+.content-main {
+  .content {
+    .container-fluid {
+      .row {
+        .cards {
+          box-sizing: border-box;
+          .card-header {
+            .card-title {
+              color: #290661;
+              font-weight: 500;
+              font-family: Roboto, sans-serif;
+              font-size: 28px;
+              line-height: 100%;
+            }
           }
         }
       }
@@ -164,18 +186,110 @@
   }
 }
 
+.content-create-income-expenses,
+.content-editing-income-expenses {
+  .category-create-income-expenses,
+  .category-editing-income-expenses {
+    form div input,
+    form div select,
+    form div textarea {
+      max-width: 400px;
+      margin: 0 auto;
+      width: 400px;
+      height: 38px;
+      max-height: 300px;
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 24px;
+    }
+    form div input::placeholder,
+    form div textarea::placeholder {
+      color: #6C757D;
+      opacity: 1;
+    }
+    form div #category-select:invalid {
+      color: #6C757D; // серый для placeholder
+    }
+
+    form div #category-select:valid {
+      color: black; // черный после выбора
+    }
+
+    .was-validated :invalid {
+      border: 1px solid red;
+    }
+
+    form div .btn {
+      @include btn-common;
+    }
+  }
+}
+
+.content-block {
+  .category {
+    @include card-categories;
+
+    h3 {
+      font-weight: 500;
+      font-size: 28px;
+      line-height: 100%;
+      color: #290661;
+      padding: 20px 20px 2px;
+    }
+
+    input {
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 24px;
+    }
+
+    .btn {
+      @include btn-common;
+    }
+
+    .btn-edit-income, .btn-edit-expenses {
+      margin: 0 10px 20px 20px;
+    }
+
+    .btn-delete-income, .btn-delete-expenses {
+      margin-bottom: 20px;
+    }
+
+    .btn-creat {
+      font-weight: 500;
+      font-size: 28px;
+      line-height: 100%;
+      color: #CED4DA;
+      margin: 44px 0;
+      border: 0;
+      background: transparent;
+    }
+  }
+}
+
+.content-income-expenses,
 .content-main {
   .content {
-    .filters {
+    .btn {
+      @include btn-common;
+    }
+    .filters-income-expenses,
+    .filters-main {
       display: flex;
       gap: 15px;
-      margin-bottom: 130px;
+      margin-bottom: 30px;
       align-items: center;
 
       .btn {
-        height: 37px;
-        width: 100px;
-        box-sizing: border-box;
+        @include filter-btn;
+      }
+
+      .btn:hover {
+        @include filter-btn-active;
+      }
+
+      .active {
+        @include filter-btn-active;
       }
 
       & p {
@@ -189,123 +303,42 @@
       }
 
     }
+    .card-body {
+      .table-income-expenses {
+        text-align: center;
+        border-left: 0;
+        border-right: 0;
 
-    .container-fluid {
-      .row {
-        .cards {
-          min-height: 467px;
-          height: 467px;
-          max-width: 100%;
 
-          .card-header {
-            display: flex;
-            justify-content: center;
-            border-bottom: none;
+        thead, tbody {
+          tr {
+            border-right: 0;
+            border-left: 0;
 
-            h3 {
-              color: #290661;
-              font-weight: 500;
+            &.table-title th {
               font-family: Roboto, sans-serif;
-              font-size: 28px;
+              font-weight: 700;
+              font-size: 16px;
               line-height: 100%;
+              letter-spacing: 1.33px;
+              color: #052C65;
+              padding: 18px 0;
             }
-          }
 
-          .card-body {
-            padding: 0;
-            border-right: 1px solid #D9D9D9;
+            th, td {
+              border-right: 0;
+              border-left: 0;
+              font-family: Roboto, sans-serif;
+              font-weight: 400;
+              font-size: 16px;
+              line-height: 23px;
+              text-align: center;
+              color: #000000;
 
-            canvas {
-              min-height: 360px;
-              height: 360px;
-              max-height: 360px;
-              max-width: 100%;
+              box-shadow: none;
             }
           }
         }
-      }
-    }
-  }
-}
-
-.content-income {
-  .income-categories {
-
-    .category {
-      width: 352px;
-      height: 121px;
-      border: 1px solid #CED4DA;
-      border-radius: 12px;
-      margin: 10px;
-
-      h3 {
-        font-family: Roboto, sans-serif;
-        font-weight: 600;
-        font-size: 28px;
-        line-height: 100%;
-        color: #290661;
-        padding: 20px 20px 10px;
-      }
-
-      .btn-edit-income {
-        margin: 0 10px 20px 20px;
-      }
-
-      .btn-delete-income {
-        margin-bottom: 20px;
-      }
-
-      .btn-creat {
-        font-family: Roboto, sans-serif;
-        font-weight: 500;
-        font-size: 28px;
-        line-height: 100%;
-        color: #CED4DA;
-        margin: 44px 0;
-        border: 0;
-        background: transparent;
-      }
-    }
-  }
-
-}
-
-.content-expenses {
-  .expenses-categories {
-
-    .category {
-      width: 352px;
-      height: 121px;
-      border: 1px solid #CED4DA;
-      border-radius: 12px;
-      margin: 10px;
-
-      h3 {
-        font-family: Roboto, sans-serif;
-        font-weight: 600;
-        font-size: 28px;
-        line-height: 100%;
-        color: #290661;
-        padding: 20px 20px 10px;
-      }
-
-      .btn-edit-expenses {
-        margin: 0 10px 20px 20px;
-      }
-
-      .btn-delete-expenses {
-        margin-bottom: 20px;
-      }
-
-      .btn-creat {
-        font-family: Roboto, sans-serif;
-        font-weight: 500;
-        font-size: 28px;
-        line-height: 100%;
-        color: #CED4DA;
-        margin: 44px 0;
-        border: 0;
-        background: transparent;
       }
     }
   }
@@ -321,7 +354,6 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.6);
-
   .modal-dialog {
     position: absolute;
     left: 40%;
@@ -357,93 +389,10 @@
   }
 }
 
-.content-income-expenses {
-  .content {
-    .btn-create-income {
-
-    }
-
-    .filters-income-expenses {
-      display: flex;
-      gap: 15px;
-      margin-bottom: 30px;
-      align-items: center;
-
-      .btn {
-        height: 37px;
-        width: 100px;
-        box-sizing: border-box;
-      }
-
-      & p {
-        display: contents;
-        font-weight: bold;
-      }
-
-      & a {
-        color: #6C757D;
-        text-decoration: underline;
-      }
-
-    }
-
-    .table-income-expenses {
-      text-align: center;
-      border-left: 0;
-      border-right: 0;
-
-      thead {
-        tr {
-          border-right: 0;
-          border-left: 0;
-
-          &.table-title th {
-            font-family: Roboto, sans-serif;
-            font-weight: 700;
-            font-size: 16px;
-            line-height: 100%;
-            letter-spacing: 1.33px;
-            color: #052C65;
-            padding: 18px 0;
-          }
-
-          th {
-            border-right: 0;
-            border-left: 0;
-            font-family: Roboto, sans-serif;
-            font-weight: 400;
-            font-size: 16px;
-            line-height: 23px;
-            text-align: center;
-            color: #000000;
-          }
-        }
-      }
-    }
-  }
-}
-
-.content-create-income-expenses {
-  .category-create-income-expenses {
-    form div input {
-      max-width: 400px;
-      margin: 0 auto;
-      width: 400px;
-    }
-  }
-}
-
-.content-editing-income-expenses {
-  .category-content-editing-income-expenses {
-    form div input {
-      max-width: 400px;
-      margin: 0 auto;
-      width: 400px;
-      font-family: Roboto, sans-serif;
-      font-weight: 400;
-      font-size: 15px;
-      line-height: 24px;
-      color: black;
+.content-header {
+  .container-fluid {
+    h1 {
+      @include content-header-title;
     }
   }
 }

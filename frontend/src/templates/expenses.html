@@ -1,11 +1,11 @@
-<div class="content-expenses position-relative">
+<div class="content-block content-expenses position-relative ms-5">
     <section class="content-header">
-        <div class="container-fluid pt-4">
-            <h1 class="mt-5">Расходы</h1>
+        <div class="container-fluid p-0 pt-4">
+            <h1 class="mt-5 pt-3 pb-4">Расходы</h1>
         </div>
     </section>
 
-    <div class="expenses-categories row">
+    <div class="expenses-categories row" id="expense-categories-container">
 
         <div class="category">
             <h3>Еда</h3>
@@ -62,7 +62,7 @@
         </div>
 
         <a href="/generating-expenses" class="category btn btn-block btn-outline-light">
-            <button class=" btn-creat">+</button>
+            <button class="btn-creat">+</button>
         </a>
     </div>
 
@@ -75,12 +75,9 @@
                 </div>
                 <div class="modal-footer justify-content-center">
                     <button type="button" class="btn btn-success" data-dismiss="modal">Да, удалить</button>
-                    <button type="button" class="btn btn-danger close-modal-expenses">Не удалять</button>
+                    <button type="button" class="btn btn-danger close-modal-expense">Не удалять</button>
                 </div>
             </div>
-            <!-- /.modal-content -->
         </div>
-        <!-- /.modal-dialog -->
     </div>
-
 </div>

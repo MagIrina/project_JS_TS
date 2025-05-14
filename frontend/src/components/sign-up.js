@@ -128,11 +128,9 @@ export class SignUp {
             }
 
             AuthUtils.setAuthInfo(accessToken, refreshToken, {
-                user: {
                     id: user.id,
                     name: user.name,
                     lastName: user.lastName
-                }
             });
 
             this.openNewRoute('/');

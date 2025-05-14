@@ -1,52 +1,62 @@
-<div class="content-main">
+<div class="content-main ms-5 mt-3">
     <section class="content">
         <section class="content-header">
-            <div class="container-fluid pt-4">
-                <h1 class="mt-5">Главная</h1>
+            <div class="container-fluid p-0 pt-4">
+                <h1 class="mt-5 pb-4">Главная</h1>
             </div>
         </section>
 
-        <div class="filters mt-5 ml-3">
-                <button type="button" class="btn btn-secondary">Сегодня</button>
-                <button type="button" class="btn btn-outline-secondary">Неделя</button>
-                <button type="button" class="btn btn-outline-secondary">Месяц</button>
-                <button type="button" class="btn btn-outline-secondary">Год</button>
-                <button type="button" class="btn btn-outline-secondary">Все</button>
-                <button type="button" class="btn btn-outline-secondary">Интервал</button>
-                <p>c</p>
-                <a>Дата</a>
-                <p>по</p>
-                <a>Дата</a>
+        <div class="filters-main mt-5 mb-5 ml-3">
+            <button type="button" class="btn btn-outline-secondary filter-btn" data-period="today">Сегодня</button>
+            <button type="button" class="btn btn-outline-secondary filter-btn" data-period="week">Неделя</button>
+            <button type="button" class="btn btn-outline-secondary filter-btn" data-period="month">Месяц</button>
+            <button type="button" class="btn btn-outline-secondary filter-btn" data-period="year">Год</button>
+            <button type="button" class="btn btn-outline-secondary filter-btn" data-period="all">Все</button>
+            <button type="button" class="btn btn-outline-secondary filter-btn" data-period="interval" id="interval-button">Интервал</button>
+            <p>с</p>
+            <a id="date-from-label">Дата</a>
+            <p>по</p>
+            <a id="date-to-label">Дата</a>
         </div>
 
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-6 cards">
-                    <div class="card-header">
-                        <h3 class="card-title">Доходы</h3>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="pieChart"></canvas>
-                    </div>
+        <div class="container-fluid row">
+            <div class="row justify-content-start pt-5">
+                <div class="card-header pt-5 col-6">
+                    <h3 class="card-title mb-3 text-center">Доходы</h3>
                 </div>
+                <div class="card-header pt-5 col-6">
+                    <h3 class="card-title mb-3 text-center">Расходы</h3>
+                </div>
+            </div>
 
-                <div class="col-md-6 cards">
-                    <div class="card-header">
-                        <h3 class="card-title">Расходы</h3>
+            <div class="row justify-content-start">
+                <div class="card-body" style="height: 360px; width: 360px;">
+                    <canvas id="pieChart" class="" style="border-right: 1px solid #D9D9D9;"></canvas>
+                </div>
+                <div class="card-body pt-2" style="height: 360px; width: 360px;" >
+                    <canvas id="pieChart2" class="border-0"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade show" id="intervalModal" aria-modal="true" role="dialog" style="display:none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <label>С</label>
+                        <input type="date" id="interval-start" class="form-control mb-2">
+                        <label>По</label>
+                        <input type="date" id="interval-end" class="form-control mb-2">
                     </div>
-                    <div class="card-body">
-                        <canvas id="pieChart2"></canvas>
+                    <div class="modal-footer justify-content-center mt-2 mb-2">
+                        <button type="button" class="btn btn-success" id="save-interval">Сохранить</button>
+                        <button type="button" class="btn btn-danger" id="cancel-interval">Отмена</button>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
-    <aside class="control-sidebar control-sidebar-dark">
-
-    </aside>
 </div>
-
 
 
 

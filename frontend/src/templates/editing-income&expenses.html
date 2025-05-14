@@ -1,19 +1,24 @@
-<div class="content-editing-income-expenses">
+<div class="content-editing-income-expenses ms-5 mt-3">
     <section class="content-header">
-        <div class="container-fluid pt-4">
+        <div class="container-fluid p-0 pt-4">
             <h1 class="mt-5">Редактирование дохода/расхода</h1>
         </div>
     </section>
-    <div class="category-content-editing-income-expenses mt-3 row">
-        <form>
-            <div class="mb-3 ml-4">
-                <input type="text" class="form-control mb-3" placeholder="Тип..." name="type" value="Доход">
-                <input type="text" class="form-control mb-3" placeholder="Категория..." name="category" value="Зарплата">
-                <input type="number" class="form-control mb-3" placeholder="Сумма в $..." name="amount" value='500'>
-                <input type="date" class="form-control mb-3" placeholder="Дата..." name="date" value="2022-09-11">
-                <input type="text" class="form-control mb-3" placeholder="Комментарий..." name="comment">
-                <button type="submit" class="btn btn-success mr-2 ">Сохранить</button>
-                <button type="reset" class="btn btn-danger">Отмена</button>
+    <div class="category-editing-income-expenses mt-3 row">
+        <form id="edit-form" class="needs-validation" novalidate>
+            <div class="mb-3 ml-4 mt-3">
+                <select class="form-control m-0 mb-2" id="type-select" name="type">
+                    <option value="income">Доход</option>
+                    <option value="expense">Расход</option>
+                </select>
+                <select class="form-control m-0 mb-2" id="category-select" name="category" required>
+                    <option value="" disabled selected hidden>Выберите категорию...</option>
+                </select>
+                <input type="number" class="form-control m-0 mb-2" name="amount" placeholder="Сумма в $..." required>
+                <input type="date" class="form-control m-0 mb-2" name="date" placeholder="Дата..." required>
+                <textarea class="form-control m-0 mb-2" name="comment" placeholder="Комментарий..."></textarea>
+                <button type="submit" class="btn btn-success mr-2 me-2">Сохранить</button>
+                <button type="button" class="btn btn-danger" id="cancel-button">Отмена</button>
             </div>
         </form>
     </div>

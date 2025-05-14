@@ -22,7 +22,6 @@
     "webpack-dev-server": "^5.2.1"
   },
   "dependencies": {
-    "admin-lte": "3.2",
-    "summernote": "^0.9.1"
+    "bootstrap": "^5.3.2"
   }
 }
