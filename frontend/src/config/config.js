@@ -1,4 +1,4 @@
-const host = 'http://localhost:3001';
+const host = 'http://localhost:3002';
 const config = {
     host: host,
     api: host + '/api',
