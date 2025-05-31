@@ -9,7 +9,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "devDependencies": {
     "copy-webpack-plugin": "^13.0.0",
     "css-loader": "^7.1.2",
@@ -23,5 +22,6 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.2"
-  }
+  },
+  "description": ""
 }
