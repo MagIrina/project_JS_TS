@@ -1,5 +1,12 @@
+import {FilterControlsOptions, PeriodChangeType} from "../types/period-change.type";
+import $ from 'jquery';
+
 export class FilterControls {
-    constructor({ onPeriodChange }) {
+
+    readonly onPeriodChange: (payload: PeriodChangeType) => void;
+    private currentPeriod: PeriodChangeType['period'];
+
+    constructor({ onPeriodChange }: FilterControlsOptions) {
         this.onPeriodChange = onPeriodChange;
         this.currentPeriod = 'today';
 
@@ -8,9 +15,9 @@ export class FilterControls {
         this.onPeriodChange({ period: 'today' });
     }
 
-    initEvents() {
+    private initEvents(): void {
         $('.filter-btn').on('click', (e) => {
-            const period = $(e.target).data('period');
+            const period = ($(e.target).data('period')  as string) || 'today';
             this.setActiveFilterButton(period);
 
             if (period !== 'interval') {
@@ -31,8 +38,8 @@ export class FilterControls {
         });
 
         $('#save-interval').on('click', () => {
-            const dateFrom = $('#interval-start').val();
-            const dateTo = $('#interval-end').val();
+            const dateFrom = $('#interval-start').val() as string;
+            const dateTo = $('#interval-end').val() as string;
 
             if (dateFrom && dateTo) {
                 $('#intervalModal').hide();
@@ -49,12 +56,12 @@ export class FilterControls {
         });
     }
 
-    setActiveFilterButton(period) {
+    private setActiveFilterButton(period: PeriodChangeType['period']): void {
         $('.filter-btn').removeClass('active').addClass('btn-outline-secondary');
         $(`.filter-btn[data-period="${period}"]`).removeClass('btn-outline-secondary').addClass('active');
     }
 
-    formatDate(dateStr) {
+    private formatDate(dateStr: string): string {
         const date = new Date(dateStr);
         return date.toLocaleDateString('ru-RU');
     }

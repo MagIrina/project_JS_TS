@@ -1,5 +1,5 @@
 export class FileUtils {
-    static loadPageScript(src) {
+    public static loadPageScript(src: string): Promise<string> {
         return new Promise((resolve, reject) => {
             const script = document.createElement('script');
             script.src = src;
@@ -9,12 +9,16 @@ export class FileUtils {
         })
     }
 
-    static loadPageStyle(src, insertBeforeElement) {
+    public static loadPageStyle(src: string, insertBeforeElement: HTMLElement | null): void  {
         const link = document.createElement('link');
         link.rel = 'stylesheet';
         link.type = 'text/css';
         link.href = src;
-        document.head.insertBefore(link, insertBeforeElement)
+        if (insertBeforeElement) {
+            document.head.insertBefore(link, insertBeforeElement);
+        } else {
+            document.head.appendChild(link);
+        }
     }
 
 }

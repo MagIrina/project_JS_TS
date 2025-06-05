@@ -3,23 +3,16 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
-    entry: './src/app.js',
-    mode: 'development',
-    output: {
-        filename: 'app.js',
-        path: path.resolve(__dirname, 'dist'),
-        publicPath: '/',
-    },
-    devServer: {
-        static: {
-            directory: path.join(__dirname, 'public'),
-        },
-        compress: true,
-        port: 9002,
-        historyApiFallback: true,
-    },
+    entry: './src/app.ts',
+    devtool: 'inline-source-map',
+    mode: "development",
     module: {
         rules: [
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
             {
                 test: /\.s[ac]ss$/i,
                 use: [
@@ -30,15 +23,30 @@ module.exports = {
             },
         ],
     },
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
+    },
+    output: {
+        filename: 'app.js',
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: '/',
+        clean: true,
+    },
+    devServer: {
+        static: path.join(__dirname, 'dist'),
+        compress: true,
+        port: 9002,
+        // historyApiFallback: true,
+    },
     plugins: [
         new HtmlWebpackPlugin({
-            template: "./index.html",
-            baseUrl: '/'
+            template: "./index.html"
         }),
 
         new CopyPlugin({
             patterns: [
                 {from: "./src/templates", to: "templates"},
+                {from: "./src/styles", to: "styles"},
                 {from: "./src/static/images", to: "images"},
                 {from: "./src/plugins/fontawesome-free/webfonts", to: "webfonts"},
 

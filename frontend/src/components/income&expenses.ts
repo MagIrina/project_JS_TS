@@ -1,17 +1,24 @@
-import {HttpUtils} from '../utils/http-utils.js';
-import {AuthGuard} from '../utils/auth-guard.js';
-import {FilterControls} from "../utils/filter-controls.js";
+import {HttpUtils} from '../utils/http-utils';
+import {AuthGuard} from '../utils/auth-guard';
+import {FilterControls} from "../utils/filter-controls";
+import {OperationItemInterface} from "../types/operation-item.interface";
 
 export class IncomeExpenses {
-    constructor(openNewRoute) {
+    readonly openNewRoute: (path: string) => void;
+    private token: string | null = null;
+    private toDeleteId: number | string | null = null;
+    private currentPeriod: string = 'today';
+    private currentFrom: string = '';
+    private currentTo: string = '';
+
+    constructor(openNewRoute: (path: string) => void) {
         this.openNewRoute = openNewRoute;
-        this.token = null;
 
         this.initEvents();
         this.init().then();
     }
 
-    async init() {
+    public async init(): Promise<void> {
         const isAuth = await AuthGuard.checkAuth(this.openNewRoute);
         if (isAuth) {
             this.token = localStorage.getItem('accessToken');
@@ -21,11 +28,12 @@ export class IncomeExpenses {
                 }
             });
 
-            this.loadOperations('today').then();
+            // this.loadOperations('today').then();
+            this.loadOperations('today').catch(console.error);
         }
     }
 
-    initEvents() {
+    private initEvents(): void {
         $('.btn-create-income-expenses.btn-success').on('click', () => {
             this.openNewRoute('/create-income&expenses?type=income');
         });
@@ -49,12 +57,12 @@ export class IncomeExpenses {
         });
     }
 
-    formatDate(dateStr) {
+    private formatDate(dateStr: string): string {
         const date = new Date(dateStr);
         return date.toLocaleDateString('ru-RU');
     }
 
-    async loadOperations(period = 'today', dateFrom = '', dateTo = '') {
+    private async loadOperations(period: string = 'today', dateFrom: string = '', dateTo: string = ''): Promise<void> {
         this.currentPeriod = period;
         this.currentFrom = dateFrom;
         this.currentTo = dateTo;
@@ -73,7 +81,7 @@ export class IncomeExpenses {
         }
     }
 
-    renderTable(data) {
+    private renderTable(data: OperationItemInterface[]): void {
         const $records = $('#records');
         $records.empty();
         data.forEach((item) => {

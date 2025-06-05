@@ -1,5 +1,5 @@
 export const SidebarUI = {
-    activateExpenses() {
+     activateExpenses(): void {
         document.getElementById('categories-active')?.classList.add('active', 'text-white');
         document.getElementById('expenses-active')?.classList.add('active', 'text-white');
         document.getElementById('income-no-active')?.classList.add('text-no-active');
@@ -12,7 +12,7 @@ export const SidebarUI = {
         document.getElementById('home-collapse')?.classList.add('show');
     },
 
-    activateIncome() {
+    activateIncome(): void {
         document.getElementById('categories-active')?.classList.add('active', 'text-white');
         document.getElementById('income-active')?.classList.add('active', 'text-white');
 
@@ -24,7 +24,7 @@ export const SidebarUI = {
         document.getElementById('home-collapse')?.classList.add('show');
     },
 
-    resetCategories() {
+    resetCategories(): void {
         document.getElementById('categories-active')?.classList.remove('active', 'text-white');
         document.getElementById('income-active')?.classList.remove('active', 'text-white');
         document.getElementById('expenses-active')?.classList.remove('active', 'text-white');
@@ -37,13 +37,13 @@ export const SidebarUI = {
         document.getElementById('home-collapse')?.classList.remove('show');
     },
 
-    activateMain() {
+    activateMain(): void {
         document.getElementById('main-active')?.classList.add('active', 'text-white');
         document.getElementById('main-active-i')?.classList.add('text-white');
         document.getElementById('categories-border')?.classList.add('border-0');
     },
 
-    activateIncomeExpenses() {
+    activateIncomeExpenses(): void {
         document.getElementById('categories-border')?.classList.add('border-0');
         document.getElementById('income-expenses-active')?.classList.add('active', 'text-white');
         document.getElementById('income-expenses-active-i')?.classList.add('text-white');

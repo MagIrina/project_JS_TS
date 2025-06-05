@@ -16170,3 +16170,6 @@ core_controller.helpers.each(
 return src;
 
 })));
+
+export class Chart {
+}

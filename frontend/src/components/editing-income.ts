@@ -1,18 +1,25 @@
-import {HttpUtils} from "../utils/http-utils.js";
-import {AuthGuard} from "../utils/auth-guard.js";
+import { HttpUtils } from "../utils/http-utils";
+import { AuthGuard } from "../utils/auth-guard";
+import { CategoryType } from "../types/category.type";
 
 export class EditingIncome {
-    constructor(openNewRoute) {
+    readonly openNewRoute: (path: string) => void;
+    private input: HTMLInputElement;
+    private saveBtn: HTMLButtonElement;
+    private cancelBtn: HTMLButtonElement;
+    readonly categoryId: string | null;
+
+    constructor(openNewRoute: (path: string) => void) {
         this.openNewRoute = openNewRoute;
-        this.input = document.getElementById('category-title-input');
-        this.saveBtn = document.getElementById('save-btn');
-        this.cancelBtn = document.getElementById('cancel-btn');
+        this.input = document.getElementById('category-title-input')! as HTMLInputElement;
+        this.saveBtn = document.getElementById('save-btn')! as HTMLButtonElement;
+        this.cancelBtn = document.getElementById('cancel-btn')! as HTMLButtonElement;
         this.categoryId = this.getCategoryIdFromURL();
 
         this.init().then();
     }
 
-    async init() {
+    private async init(): Promise<void> {
         const isAuth = await AuthGuard.checkAuth(this.openNewRoute);
         if (!isAuth) return;
 
@@ -29,13 +36,13 @@ export class EditingIncome {
         }
     }
 
-    getCategoryIdFromURL() {
+    private getCategoryIdFromURL(): string | null {
         const params = new URLSearchParams(window.location.search);
         return params.get('id');
     }
 
-    async fetchCategory() {
-        const result = await HttpUtils.request(`/categories/income/${this.categoryId}`, 'GET', true);
+    private async fetchCategory(): Promise<CategoryType | null> {
+        const result = await HttpUtils.request<CategoryType>(`/categories/income/${this.categoryId}`, 'GET', true);
         if (result.error || !result.response?.title) {
             alert("Не удалось загрузить категорию");
             this.openNewRoute('/income');
@@ -44,7 +51,7 @@ export class EditingIncome {
         return result.response;
     }
 
-    bindEvents() {
+    private bindEvents(): void {
         this.cancelBtn.addEventListener('click', () => {
             this.openNewRoute('/income');
         });
@@ -57,7 +64,12 @@ export class EditingIncome {
                 return;
             }
 
-            const result = await HttpUtils.request(`/categories/income/${this.categoryId}`, 'PUT', true, { title: newTitle });
+            const result = await HttpUtils.request<unknown>(
+                `/categories/income/${this.categoryId}`,
+                'PUT',
+                true,
+                { title: newTitle }
+            );
             if (!result.error) {
                 this.openNewRoute('/income');
             } else {
@@ -66,3 +78,4 @@ export class EditingIncome {
         });
     }
 }
+

@@ -1,11 +1,16 @@
 import {HttpUtils} from "./http-utils";
+import {UserInfoType} from "../types/user-info.type";
 
 export class AuthUtils {
-    static accessTokenKey = 'accessToken';
-    static refreshTokenKey = 'refreshToken';
-    static userInfoTokenKey = 'userInfo';
+    public static accessTokenKey: string = 'accessToken';
+    public static refreshTokenKey: string = 'refreshToken';
+    public static userInfoTokenKey: string = 'userInfo';
 
-    static setAuthInfo(accessToken, refreshToken, userInfo = undefined) {
+    public static setAuthInfo(
+        accessToken: string,
+        refreshToken: string,
+        userInfo?: UserInfoType
+    ): void {
         if (!accessToken || !refreshToken) {
             throw new Error("Не удалось сохранить токены: один из них отсутствует");
         }
@@ -17,50 +22,64 @@ export class AuthUtils {
         }
     }
 
-    static removeAuthInfo() {
+    public static removeAuthInfo(): void {
         localStorage.removeItem(this.accessTokenKey);
         localStorage.removeItem(this.refreshTokenKey);
         localStorage.removeItem(this.userInfoTokenKey);
     }
 
-    static getAuthInfo(key = null) {
-        if (key && [this.accessTokenKey, this.refreshTokenKey, this.userInfoTokenKey].includes(key)) {
-            return localStorage.getItem(key);
+    public static getAuthInfo(
+        key?: string
+    ): string | UserInfoType | null | Record<string, string | null> {
+        const validKeys = [
+            this.accessTokenKey,
+            this.refreshTokenKey,
+            this.userInfoTokenKey,
+        ];
+
+        if (key && validKeys.includes(key)) {
+            const value = localStorage.getItem(key);
+            return key === this.userInfoTokenKey && value
+                ? JSON.parse(value)
+                : value;
         } else {
             return {
                 [this.accessTokenKey]: localStorage.getItem(this.accessTokenKey),
                 [this.refreshTokenKey]: localStorage.getItem(this.refreshTokenKey),
                 [this.userInfoTokenKey]: localStorage.getItem(this.userInfoTokenKey),
-            }
+            };
         }
-    }
+    };
 
-    static async updateRefreshToken() {
+    private static isRefreshing = false;
+    private static refreshPromise: Promise<boolean>;
+
+    public static async updateRefreshToken(): Promise<boolean> {
         if (this.isRefreshing) {
             console.warn("Уже идет обновление токена — ждём завершения...");
             return this.refreshPromise;
         }
 
         this.isRefreshing = true;
-        this.refreshPromise = new Promise(async (resolve) => {
+        this.refreshPromise = new Promise<boolean>(async (resolve) => {
             let result = false;
-            const refreshToken = this.getAuthInfo(this.refreshTokenKey);
+            const refreshToken = this.getAuthInfo(this.refreshTokenKey) as string;
             if (refreshToken) {
                 try {
                     const res = await HttpUtils.request('/refresh', 'POST', false, {refreshToken});
 
-                    console.log("Ответ от /refresh:", res);
-
-                    if (!res.error && res.response?.tokens?.accessToken && res.response?.tokens?.refreshToken) {
+                    if (
+                        !res.error &&
+                        res.response?.tokens?.accessToken &&
+                        res.response?.tokens?.refreshToken
+                    ) {
                         const tokens = res.response.tokens;
-
-                        const existingUserInfo = this.getAuthInfo(this.userInfoTokenKey);
+                        const existingUserInfo = this.getAuthInfo(this.userInfoTokenKey) as string | null;
                         this.setAuthInfo(
                             tokens.accessToken,
                             tokens.refreshToken,
                             existingUserInfo ? JSON.parse(existingUserInfo) : undefined
                         );
-
                         result = true;
                     } else {
                         console.warn("Не удалось обновить токен, res:", res);

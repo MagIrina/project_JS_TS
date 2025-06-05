@@ -1,27 +1,34 @@
-import {Main} from "./components/main.js";
-import {Login} from "./components/login.js";
-import {SignUp} from "./components/sign-up.js";
-import {FileUtils} from "./utils/file-utils.js";
-import {Logout} from "./components/logout.js";
-import {Income} from "./components/income.js";
-import {GeneratingIncome} from "./components/generating-income.js";
-import {EditingIncome} from "./components/editing-income.js";
-import {Expenses} from "./components/expenses.js";
-import {GeneratingExpenses} from "./components/generating-expenses.js";
-import {EditingExpenses} from "./components/editing-expenses.js";
-import {IncomeExpenses} from "./components/income&expenses.js";
-import {CreateIncomeExpenses} from "./components/create-income&expenses.js";
-import {EditingIncomeExpenses} from "./components/editing-income&expenses.js";
-import {LayoutSidebar} from "./components/layout.js";
-import {SidebarUI} from "./utils/sidebar-ui.js";
+import {Main} from "./components/main";
+import {Login} from "./components/login";
+import {SignUp} from "./components/sign-up";
+import {FileUtils} from "./utils/file-utils";
+import {Logout} from "./components/logout";
+import {Income} from "./components/income";
+import {GeneratingIncome} from "./components/generating-income";
+import {EditingIncome} from "./components/editing-income";
+import {Expenses} from "./components/expenses";
+import {GeneratingExpenses} from "./components/generating-expenses";
+import {EditingExpenses} from "./components/editing-expenses";
+import {IncomeExpenses} from "./components/income&expenses";
+import {CreateIncomeExpenses} from "./components/create-income&expenses";
+import {EditingIncomeExpenses} from "./components/editing-income&expenses";
+import {LayoutSidebar} from "./components/layout";
+import {SidebarUI} from "./utils/sidebar-ui";
+import {RouteType} from "./types/route.type";
 
 export class Router {
 
+    readonly titlePageElement: HTMLElement | null;
+    readonly contentPageElement: HTMLElement | null;
+    readonly bootstrapStyleElement: HTMLElement | null;
+
+    private routes: RouteType[];
+
     constructor() {
 
-        this.titlePageElement = document.getElementById('title');
-        this.contentPageElement = document.getElementById('content');
-        this.bootstrapStyleElement = document.getElementById('bootstrap_style');
+        this.titlePageElement = document.getElementById('title')!;
+        this.contentPageElement = document.getElementById('content')!;
+        this.bootstrapStyleElement = document.getElementById('bootstrap_style')!;
 
         this.inetEvens();
 
@@ -205,27 +212,29 @@ export class Router {
         ]
     }
 
-    inetEvens() {
+    private inetEvens(): void {
         window.addEventListener('DOMContentLoaded', this.activateRoute.bind(this));
         window.addEventListener('popstate', this.activateRoute.bind(this));
         document.addEventListener('click', this.clickHandler.bind(this));
     }
 
-    async openNewRoute(url) {
+    private async openNewRoute(url: string): Promise<void> {
         const currentRoute = window.location.pathname;
         history.pushState({}, '', url);
         await this.activateRoute(null, currentRoute);
     }
 
-    async clickHandler(e) {
-        let element = null;
-        if (e.target.nodeName === 'A') {
-            element = e.target;
-        } else if (e.target.closest('a')) {
-            element = e.target.closest('a');
+    private async clickHandler(e: MouseEvent): Promise<void> {
+        let element: HTMLElement | null = null; // Инициализация по умолчанию
+        const target = e.target as HTMLElement;
+
+        if (target.nodeName === 'A') {
+            element = target;
+        } else {
+            element = target.closest('a');
         }
 
-        if (element) {
+        if (element && element instanceof HTMLAnchorElement) {
             e.preventDefault();
 
             const currentRoute = window.location.pathname;
@@ -238,16 +247,16 @@ export class Router {
         }
     }
 
-    async fadeInContent(block, html) {
+    private async fadeInContent(block: HTMLElement, html: string): Promise<void> {
         block.classList.add('fade');
-        block.style.opacity = 0;
+        block.style.opacity = '0';
         await new Promise(resolve => setTimeout(resolve, 100));
         block.innerHTML = html;
-        block.style.opacity = 1;
+        block.style.opacity = '1';
         block.classList.remove('fade');
     }
 
-    async activateRoute(e, oldRoute = null) {
+    private async activateRoute(_e: Event | null = null, oldRoute: string | null = null): Promise<void> {
         if (oldRoute) {
             const currentRoute = this.routes.find(item => item.route === oldRoute);
             if (currentRoute?.styles) {
@@ -260,8 +269,8 @@ export class Router {
                     document.querySelector(`script[src = '/js/${script}']`)?.remove();
                 });
             }
-            if (typeof currentRoute?.unload === 'function') {
-                currentRoute.unload();
+            if (typeof currentRoute?.unLoad === 'function') {
+                currentRoute.unLoad();
             }
         }
 
@@ -281,17 +290,17 @@ export class Router {
                 }
             }
 
-            if (newRoute.title) {
+            if (newRoute.title && this.titlePageElement) {
                 this.titlePageElement.innerText = newRoute.title + ' | Finance';
             }
-            if (newRoute.filePathTemplate) {
+            if (newRoute.filePathTemplate && this.contentPageElement) {
                 document.body.className = '';
                 let contentBlock = this.contentPageElement;
 
                 if (newRoute.useLayout) {
                     const layoutHTML = await fetch(newRoute.useLayout).then(res => res.text());
                     this.contentPageElement.innerHTML = layoutHTML;
-                    contentBlock = document.getElementById('content-layout');
+                    contentBlock = document.getElementById('content-layout')! as HTMLElement;
                     document.body.classList.add('custom-layout');
                 }
 

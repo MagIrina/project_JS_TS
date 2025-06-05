@@ -1,14 +1,20 @@
-import {AuthUtils} from "./auth-utils.js";
-import config from "../config/config.js";
+import {AuthUtils} from "./auth-utils";
+import config from "../config/config";
+import {HttpResponseType} from "../types/http-response.type";
 
 export class HttpUtils {
-    static async request(url, method = "GET", useAuth = true, body = null) {
-        const result = {
+    static async request<T = any>(
+        url: string,
+        method: string = "GET",
+        useAuth: boolean = true,
+        body: any = null
+    ): Promise<HttpResponseType<T>> {
+        const result: HttpResponseType<T> = {
             error: false,
             response: null
-        }
+        };
 
-        const params = {
+        const params: RequestInit = {
             method: method,
             headers: {
                 'Content-type': 'application/json',
@@ -16,20 +22,24 @@ export class HttpUtils {
             },
         };
 
-        let token = null;
+        let token: string | null = null;
 
         if (useAuth) {
-            token = AuthUtils.getAuthInfo(AuthUtils.accessTokenKey);
+            token = AuthUtils.getAuthInfo(AuthUtils.accessTokenKey) as string;
             if (token) {
-                params.headers['X-Auth-Token'] = token;
+                if (!params.headers) {
+                    params.headers = {};
+                }
+                (params.headers as Record<string, string>)['X-Auth-Token'] = token;
             }
         }
+
 
         if (body) {
             params.body = JSON.stringify(body);
         }
 
-        let response = null;
+        let response: Response | null = null;
 
         try {
             response = await fetch(config.api + url, params);
@@ -50,9 +60,9 @@ export class HttpUtils {
                     if (updateTokenResult) {
                         const newToken = AuthUtils.getAuthInfo(AuthUtils.accessTokenKey);
                         if (newToken) {
-                            params.headers['Authorization'] = `Bearer ${newToken}`;
+                            (params.headers as Record<string, string>)['Authorization'] = `Bearer ${newToken}`;
                         }
-                        return this.request(url, method, useAuth, body);
+                        return this.request<T>(url, method, useAuth, body);
                     } else {
                         result.redirect = '/login';
                     }

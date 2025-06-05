@@ -1,9 +1,13 @@
-import {AuthUtils} from "../utils/auth-utils.js";
-import { AuthGuard } from "../utils/auth-guard.js";
-import { BalanceUtils } from "../utils/balance-utils.js";
+import {AuthUtils} from "../utils/auth-utils";
+import {AuthGuard} from "../utils/auth-guard";
+import {BalanceUtils} from "../utils/balance-utils";
+import { Modal} from "bootstrap";
 
 export class LayoutSidebar {
-    constructor(openNewRoute) {
+    readonly openNewRoute: (path: string) => void;
+    readonly userFullNameElement: HTMLElement | null;
+
+    constructor(openNewRoute: (path: string) => void) {
         this.openNewRoute = openNewRoute;
         this.userFullNameElement = document.getElementById('user-full-name');
         if (this.userFullNameElement) {
@@ -13,19 +17,21 @@ export class LayoutSidebar {
         this.init().then();
     }
 
-    async init() {
+    private async init(): Promise<void> {
         const isAuthenticated = await AuthGuard.checkAuth(this.openNewRoute);
-        if (!isAuthenticated)
-            return;
+        if (!isAuthenticated) return;
+
         if (this.userFullNameElement) {
             this.setUserFullName();
         }
         await this.setupBalanceSection();
     }
 
-    setUserFullName() {
+    private setUserFullName() {
         const userInfoRaw = AuthUtils.getAuthInfo(AuthUtils.userInfoTokenKey);
-        if (userInfoRaw) {
+        if (!userInfoRaw) return;
+
+        if (typeof userInfoRaw === 'string') {
             try {
                 const userInfo = JSON.parse(userInfoRaw);
                 const fullName = [userInfo.name, userInfo.lastName].filter(Boolean).join(' ');
@@ -36,27 +42,28 @@ export class LayoutSidebar {
                 console.error("Ошибка при разборе userInfo:", e);
             }
         }
+
     }
 
-    async setupBalanceSection() {
+    private async setupBalanceSection() {
         const balanceLink = document.getElementById('balance');
         const balanceModalEl = document.getElementById('balance-modal');
-        const inputEl = document.getElementById('balance-input');
+        const inputEl = document.getElementById('balance-input') as HTMLInputElement;
         const saveBtn = document.getElementById('save-balance');
         if (!balanceLink || !balanceModalEl || !inputEl || !saveBtn) {
             return;
         }
 
-        const modal = new bootstrap.Modal(balanceModalEl, { keyboard: false });
+        const modal = new Modal(balanceModalEl, {keyboard: false});
 
-        const currentBalance = await BalanceUtils.getBalance();
+        const currentBalance: number | null = await BalanceUtils.getBalance();
         if (currentBalance !== null) {
             balanceLink.textContent = `${currentBalance} $`;
         }
 
         balanceLink.addEventListener('click', async () => {
             const latestBalance = await BalanceUtils.getBalance();
-            inputEl.value = latestBalance ?? 0;
+            inputEl.value = String(latestBalance ?? 0);
             modal.show();
         });
 
