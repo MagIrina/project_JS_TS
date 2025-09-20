@@ -13,7 +13,7 @@
 🚀 Запуск проекта
 
 Склонировать репозиторий:
-git clone https://github.com/MagIrina/project_JS_TS
+git clone https://github.com/MagIrina/Finance-Tracker
 
 Установить зависимости:
 npm install
